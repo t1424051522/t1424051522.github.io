@@ -6,6 +6,7 @@
     <title>图图的宝库 - 智能知识助手</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 原有样式保持不变 */
         * {
             margin: 0;
             padding: 0;
@@ -20,9 +21,6 @@
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
-            overflow-x: hidden;
-            /* 防止页面内容被聊天框遮挡 */
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
         @keyframes gradient {
@@ -34,78 +32,75 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 15px;
-            padding-bottom: 100px; /* 为聊天框留出更多空间 */
+            padding: 40px 20px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             background: rgba(255, 255, 255, 0.95);
-            padding: 30px 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .logo {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 4rem;
+            margin-bottom: 20px;
             display: block;
         }
 
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
+            font-size: 3.2rem;
+            margin-bottom: 15px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
-            word-wrap: break-word;
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: 300;
         }
 
         .intro-text {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #555;
-            max-width: 100%;
-            margin: 0 auto 25px;
-            line-height: 1.5;
+            max-width: 700px;
+            margin: 0 auto 30px;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
         }
 
         .feature-card {
             background: rgba(255, 255, 255, 0.95);
-            padding: 25px 20px;
-            border-radius: 12px;
+            padding: 35px 25px;
+            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 3rem;
+            margin-bottom: 20px;
             display: block;
         }
 
@@ -115,54 +110,51 @@
         .feature-card:nth-child(4) .feature-icon { color: #f39c12; }
 
         .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             color: #2c3e50;
         }
 
         .feature-card p {
             color: #7f8c8d;
-            font-size: 0.95rem;
-            line-height: 1.4;
+            font-size: 1rem;
         }
 
         .cta-section {
             text-align: center;
             background: rgba(255, 255, 255, 0.95);
-            padding: 35px 25px;
-            border-radius: 15px;
-            margin-top: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .cta-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
             color: #2c3e50;
         }
 
         .cta-description {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #666;
-            margin-bottom: 25px;
-            max-width: 100%;
+            margin-bottom: 30px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.5;
         }
 
         .chat-hint {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 12px 20px;
+            padding: 15px 25px;
             border-radius: 50px;
             display: inline-block;
             font-weight: 600;
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             animation: pulse 2s infinite;
-            font-size: 0.95rem;
         }
 
         @keyframes pulse {
@@ -173,126 +165,115 @@
 
         footer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 60px;
             color: rgba(255, 255, 255, 0.8);
-            font-size: 0.85rem;
-            padding: 15px;
+            font-size: 0.9rem;
+            padding: 20px;
         }
 
-        /* 聊天框样式覆盖 - 强制居中 */
-        #sophnet-chat-button-iframe {
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            right: auto !important;
-        }
-
-        /* 聊天窗口样式覆盖 */
-        .sophnet-chat-window {
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            right: auto !important;
-            max-width: 95vw !important;
-            width: 400px !important;
-        }
-
-        /* 移动端专属优化 */
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px 10px;
-                padding-bottom: 90px;
-            }
-            
+        /* 响应式设计 */
+        @media (max-width: 768px) {
             .header {
-                padding: 25px 15px;
-                margin-bottom: 30px;
-            }
-            
-            .logo {
-                font-size: 2.5rem;
+                padding: 30px 20px;
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
             }
             
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .intro-text {
-                font-size: 1rem;
+            .logo {
+                font-size: 3rem;
             }
             
             .features-grid {
                 grid-template-columns: 1fr;
-                gap: 15px;
-                margin: 30px 0;
-            }
-            
-            .feature-card {
-                padding: 20px 15px;
-            }
-            
-            .feature-icon {
-                font-size: 2rem;
-            }
-            
-            .feature-card h3 {
-                font-size: 1.2rem;
             }
             
             .cta-section {
-                padding: 25px 15px;
+                padding: 30px 20px;
             }
-            
-            .cta-title {
-                font-size: 1.5rem;
-            }
-            
-            .cta-description {
-                font-size: 1rem;
-            }
-            
-            .chat-hint {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
+        }
 
-            /* 移动端聊天框强制居中 */
-            #sophnet-chat-button-iframe {
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                right: auto !important;
-                bottom: 20px !important;
-            }
+        /* ================================
+           专门修复聊天框的样式
+           不影响页面其他内容
+        ================================ */
+        
+        /* 确保页面内容不会被聊天框遮挡 */
+        body {
+            padding-bottom: 80px !important;
+        }
 
-            /* 移动端聊天窗口样式 */
-            .sophnet-chat-window {
+        /* 移动端聊天框修复 */
+        @media (max-width: 768px) {
+            /* 为聊天按钮和窗口预留空间 */
+            body {
+                padding-right: 0 !important;
+                padding-bottom: 100px !important;
+            }
+            
+            /* 聊天按钮位置修复 - 确保在右下角完全显示 */
+            #sophnet-chat-button-iframe,
+            [id*="sophnet-chat-button"],
+            [class*="chat-button"],
+            [class*="floating-chat"] {
+                right: 15px !important;
+                bottom: 15px !important;
+                left: auto !important;
+                top: auto !important;
+                z-index: 10000 !important;
+            }
+            
+            /* 聊天窗口样式修复 - 确保在手机上完全显示 */
+            [class*="chat-window"],
+            [class*="chat-container"],
+            [id*="chat-window"] {
                 position: fixed !important;
-                top: 50% !important;
-                left: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                width: 95vw !important;
-                max-width: 400px !important;
-                height: 80vh !important;
-                max-height: 700px !important;
+                right: 10px !important;
+                bottom: 80px !important;
+                left: 10px !important;
+                top: auto !important;
+                width: calc(100vw - 20px) !important;
+                max-width: none !important;
+                height: 70vh !important;
+                max-height: 600px !important;
                 border-radius: 15px !important;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+                z-index: 10001 !important;
             }
-
+            
             /* 确保聊天内容区域适应屏幕 */
-            .sophnet-chat-container {
+            [class*="chat-window"] iframe,
+            [class*="chat-container"] iframe,
+            [id*="chat-window"] iframe {
+                width: 100% !important;
                 height: 100% !important;
                 border-radius: 15px !important;
             }
         }
 
-        /* 安全区域适配（iPhone X及以上） */
-        @supports(padding: max(0px)) {
-            .container {
-                padding-left: max(15px, env(safe-area-inset-left));
-                padding-right: max(15px, env(safe-area-inset-right));
-                padding-bottom: max(100px, env(safe-area-inset-bottom));
+        /* 小屏幕手机额外优化 */
+        @media (max-width: 480px) {
+            [class*="chat-window"],
+            [class*="chat-container"],
+            [id*="chat-window"] {
+                height: 65vh !important;
+                max-height: 500px !important;
+                bottom: 70px !important;
+            }
+            
+            body {
+                padding-bottom: 90px !important;
+            }
+        }
+
+        /* 横屏模式优化 */
+        @media (max-height: 500px) and (orientation: landscape) {
+            [class*="chat-window"],
+            [class*="chat-container"],
+            [id*="chat-window"] {
+                height: 85vh !important;
+                bottom: 60px !important;
             }
         }
     </style>
@@ -364,42 +345,73 @@
             // 如果是移动设备，延迟调整聊天框位置
             if (isMobile) {
               setTimeout(() => {
-                adjustChatPosition();
-              }, 2000);
+                fixChatPosition();
+              }, 1000);
             }
           }
         };
         document.body.appendChild(scriptEl);
 
-        // 调整聊天框位置的函数
-        function adjustChatPosition() {
-          // 尝试找到聊天按钮和窗口元素
-          const chatButton = document.querySelector('#sophnet-chat-button-iframe');
-          const chatWindow = document.querySelector('.sophnet-chat-window');
+        // 专门修复聊天框位置的函数
+        function fixChatPosition() {
+          console.log('正在修复聊天框位置...');
           
-          if (chatButton) {
-            chatButton.style.left = '50%';
-            chatButton.style.transform = 'translateX(-50%)';
-            chatButton.style.right = 'auto';
-          }
+          // 查找聊天按钮元素
+          const chatButtons = [
+            document.querySelector('#sophnet-chat-button-iframe'),
+            document.querySelector('[id*="chat-button"]'),
+            document.querySelector('[class*="chat-button"]'),
+            document.querySelector('[class*="floating-chat"]')
+          ];
           
-          if (chatWindow) {
-            chatWindow.style.left = '50%';
-            chatWindow.style.transform = 'translateX(-50%)';
-            chatWindow.style.right = 'auto';
-          }
+          // 查找聊天窗口元素
+          const chatWindows = [
+            document.querySelector('[class*="chat-window"]'),
+            document.querySelector('[class*="chat-container"]'),
+            document.querySelector('[id*="chat-window"]')
+          ];
           
-          console.log('聊天框位置已调整');
+          // 修复聊天按钮位置
+          chatButtons.forEach(button => {
+            if (button) {
+              button.style.right = '15px';
+              button.style.bottom = '15px';
+              button.style.left = 'auto';
+              button.style.zIndex = '10000';
+              console.log('聊天按钮位置已修复');
+            }
+          });
+          
+          // 修复聊天窗口位置和尺寸
+          chatWindows.forEach(window => {
+            if (window) {
+              window.style.position = 'fixed';
+              window.style.right = '10px';
+              window.style.bottom = '80px';
+              window.style.left = '10px';
+              window.style.width = 'calc(100vw - 20px)';
+              window.style.height = '70vh';
+              window.style.maxHeight = '600px';
+              window.style.zIndex = '10001';
+              console.log('聊天窗口位置已修复');
+            }
+          });
         }
 
-        // 监听窗口变化，重新调整位置
-        window.addEventListener('resize', adjustChatPosition);
+        // 监听窗口变化和点击事件，持续修复位置
+        window.addEventListener('resize', fixChatPosition);
+        document.addEventListener('click', function(e) {
+          // 如果点击了可能是聊天按钮的元素，延迟修复位置
+          if (e.target.closest('[id*="chat"], [class*="chat"]')) {
+            setTimeout(fixChatPosition, 500);
+          }
+        });
         
-        // 定期检查并调整位置（防止动态加载的元素）
-        setInterval(adjustChatPosition, 3000);
+        // 定期检查并修复位置
+        setInterval(fixChatPosition, 2000);
       });
 
-      // 防止页面缩放
+      // 防止页面缩放干扰
       document.addEventListener('touchstart', function(e) {
           if (e.touches.length > 1) {
               e.preventDefault();
@@ -417,4 +429,5 @@
     </script>
 </body>
 </html>
+
 
