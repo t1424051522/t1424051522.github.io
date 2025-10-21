@@ -20,8 +20,9 @@
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
-            /* 防止横向滚动 */
             overflow-x: hidden;
+            /* 防止页面内容被聊天框遮挡 */
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
         @keyframes gradient {
@@ -34,8 +35,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px 15px;
-            /* 确保容器不会挤压聊天框 */
-            padding-bottom: 80px;
+            padding-bottom: 100px; /* 为聊天框留出更多空间 */
         }
 
         .header {
@@ -179,11 +179,27 @@
             padding: 15px;
         }
 
+        /* 聊天框样式覆盖 - 强制居中 */
+        #sophnet-chat-button-iframe {
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            right: auto !important;
+        }
+
+        /* 聊天窗口样式覆盖 */
+        .sophnet-chat-window {
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            right: auto !important;
+            max-width: 95vw !important;
+            width: 400px !important;
+        }
+
         /* 移动端专属优化 */
         @media (max-width: 480px) {
             .container {
                 padding: 15px 10px;
-                padding-bottom: 70px;
+                padding-bottom: 90px;
             }
             
             .header {
@@ -241,22 +257,48 @@
                 padding: 10px 18px;
                 font-size: 0.9rem;
             }
+
+            /* 移动端聊天框强制居中 */
+            #sophnet-chat-button-iframe {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                right: auto !important;
+                bottom: 20px !important;
+            }
+
+            /* 移动端聊天窗口样式 */
+            .sophnet-chat-window {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                width: 95vw !important;
+                max-width: 400px !important;
+                height: 80vh !important;
+                max-height: 700px !important;
+                border-radius: 15px !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+            }
+
+            /* 确保聊天内容区域适应屏幕 */
+            .sophnet-chat-container {
+                height: 100% !important;
+                border-radius: 15px !important;
+            }
         }
 
-        /* 为聊天框预留空间 */
-        .chat-container-fix {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* 确保聊天框在最上层且不被遮挡 */
-        body * {
-            max-width: 100%;
+        /* 安全区域适配（iPhone X及以上） */
+        @supports(padding: max(0px)) {
+            .container {
+                padding-left: max(15px, env(safe-area-inset-left));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-bottom: max(100px, env(safe-area-inset-bottom));
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container chat-container-fix">
+    <div class="container">
         <header class="header">
             <i class="fas fa-gem logo"></i>
             <h1>图图的宝库</h1>
@@ -306,7 +348,7 @@
     <!-- 智能体悬浮窗代码 -->
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        // 添加移动端检测
+        // 移动端检测
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         var scriptEl = document.createElement('script');
@@ -314,25 +356,50 @@
         scriptEl.defer = true;
         scriptEl.onload = function () {
           if (window.FloatingChatButton) {
-            // 如果是移动设备，可以传递额外的配置参数
-            const config = {
+            window.FloatingChatButton.mount(undefined, {
               id: '3n9gXgYvsC3eNNApd5xv3T',
               name: '图图的宝库',
-            };
-            
-            // 如果是移动设备，可以尝试调整聊天框样式
+            });
+
+            // 如果是移动设备，延迟调整聊天框位置
             if (isMobile) {
-              console.log('移动设备检测到，已优化聊天框显示');
-              // 这里可以添加移动端特定的配置
+              setTimeout(() => {
+                adjustChatPosition();
+              }, 2000);
             }
-            
-            window.FloatingChatButton.mount(undefined, config);
           }
         };
         document.body.appendChild(scriptEl);
+
+        // 调整聊天框位置的函数
+        function adjustChatPosition() {
+          // 尝试找到聊天按钮和窗口元素
+          const chatButton = document.querySelector('#sophnet-chat-button-iframe');
+          const chatWindow = document.querySelector('.sophnet-chat-window');
+          
+          if (chatButton) {
+            chatButton.style.left = '50%';
+            chatButton.style.transform = 'translateX(-50%)';
+            chatButton.style.right = 'auto';
+          }
+          
+          if (chatWindow) {
+            chatWindow.style.left = '50%';
+            chatWindow.style.transform = 'translateX(-50%)';
+            chatWindow.style.right = 'auto';
+          }
+          
+          console.log('聊天框位置已调整');
+        }
+
+        // 监听窗口变化，重新调整位置
+        window.addEventListener('resize', adjustChatPosition);
+        
+        // 定期检查并调整位置（防止动态加载的元素）
+        setInterval(adjustChatPosition, 3000);
       });
 
-      // 防止页面缩放导致聊天框异常
+      // 防止页面缩放
       document.addEventListener('touchstart', function(e) {
           if (e.touches.length > 1) {
               e.preventDefault();
@@ -350,3 +417,4 @@
     </script>
 </body>
 </html>
+
