@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图图的宝库 - 智能助手</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            text-align: center;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        .feature-list {
+            text-align: left;
+            display: inline-block;
+            margin-top: 30px;
+        }
+        .feature-list li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 图图的宝库</h1>
+        <p>欢迎来到我的知识宝库！</p>
+        <p>点击右下角的聊天按钮，开启智能对话之旅</p>
+        
+        <div class="feature-list">
+            <ul>
+                <li>💬 随时解答你的问题</li>
+                <li>🔍 提供专业的知识服务</li>
+                <li>⚡ 快速响应的智能助手</li>
+                <li>🎨 个性化的交流体验</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 智能体悬浮窗代码 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var scriptEl = document.createElement('script');
+        scriptEl.src = "https://sophnet.com/api/agents/sophnet-chat-button.umd.js";
+        scriptEl.defer = true;
+        scriptEl.onload = function () {
+          if (window.FloatingChatButton) {
+            window.FloatingChatButton.mount(undefined, {
+              id: '3n9gXgYvsC3eNNApd5xv3T', // 当前智能体ID，请勿修改
+              name: '图图的宝库', // 窗体左上角标题
+            });
+          }
+        };
+        document.body.appendChild(scriptEl);
+      });
+    </script>
+</body>
+</html>
