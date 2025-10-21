@@ -3,58 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图图的宝库 - 智能助手</title>
+    <title>图图的宝库 - 智能知识助手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 20px;
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             min-height: 100vh;
-            text-align: center;
-            color: white;
+            color: #333;
+            line-height: 1.6;
         }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 40px 20px;
         }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
         h1 {
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        p {
-            font-size: 1.3em;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-        .feature-list {
-            text-align: left;
-            display: inline-block;
-            margin-top: 30px;
-        }
-        .feature-list li {
+            font-size: 3.2rem;
             margin-bottom: 15px;
-            font-size: 1.1em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #666;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card:nth-child(1) .feature-icon { color: #e74c3c; }
+        .feature-card:nth-child(2) .feature-icon { color: #3498db; }
+        .feature-card:nth-child(3) .feature-icon { color: #2ecc71; }
+        .feature-card:nth-child(4) .feature-icon { color: #f39c12; }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .feature-card p {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chat-hint {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-section {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎯 图图的宝库</h1>
-        <p>欢迎来到我的知识宝库！</p>
-        <p>点击右下角的聊天按钮，开启智能对话之旅</p>
-        
-        <div class="feature-list">
-            <ul>
-                <li>💬 随时解答你的问题</li>
-                <li>🔍 提供专业的知识服务</li>
-                <li>⚡ 快速响应的智能助手</li>
-                <li>🎨 个性化的交流体验</li>
-            </ul>
+        <header class="header">
+            <i class="fas fa-gem logo"></i>
+            <h1>图图的宝库</h1>
+            <p class="tagline">智慧之光，照亮求知之路</p>
+            <p class="intro-text">这里汇集了丰富的知识资源与智能解决方案，无论您遇到什么问题，我都能为您提供专业、准确、及时的帮助。</p>
+        </header>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-comments feature-icon"></i>
+                <h3>智能对话</h3>
+                <p>24小时在线的智能助手，随时解答您的疑问，提供个性化交流体验。</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-search feature-icon"></i>
+                <h3>深度解析</h3>
+                <p>对复杂问题进行多维度分析，提供全面、深入的专业见解。</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-bolt feature-icon"></i>
+                <h3>极速响应</h3>
+                <p>先进的技术架构确保快速响应，让您无需等待即刻获得答案。</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-palette feature-icon"></i>
+                <h3>个性化服务</h3>
+                <p>根据您的需求和偏好，提供量身定制的解决方案和建议。</p>
+            </div>
         </div>
+
+        <section class="cta-section">
+            <h2 class="cta-title">准备好开始对话了吗？</h2>
+            <p class="cta-description">点击右下角的聊天按钮，开启您的智能知识探索之旅。无论学习、工作还是生活中的问题，我都在这里为您提供帮助。</p>
+            <div class="chat-hint">
+                <i class="fas fa-arrow-down"></i> 点击右下角开始聊天
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2024 图图的宝库 · 让知识触手可及</p>
+        </footer>
     </div>
 
     <!-- 智能体悬浮窗代码 -->
@@ -66,8 +251,8 @@
         scriptEl.onload = function () {
           if (window.FloatingChatButton) {
             window.FloatingChatButton.mount(undefined, {
-              id: '3n9gXgYvsC3eNNApd5xv3T', // 当前智能体ID，请勿修改
-              name: '图图的宝库', // 窗体左上角标题
+              id: '3n9gXgYvsC3eNNApd5xv3T',
+              name: '图图的宝库',
             });
           }
         };
@@ -75,4 +260,5 @@
       });
     </script>
 </body>
+</html>
 </html>
