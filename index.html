@@ -1,433 +1,520 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>图图的宝库 - 智能知识助手</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* 原有样式保持不变 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>轻量 ERP 工作台</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #697386;
+      --primary: #2f6fed;
+      --primary-dark: #184fb5;
+      --green: #16a34a;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --line: #e5e9f2;
+      --shadow: 0 18px 45px rgba(31, 45, 77, 0.10);
+      --radius: 18px;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            min-height: 100vh;
-            color: #333;
-            line-height: 1.6;
-        }
+    * { box-sizing: border-box; }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top left, rgba(47, 111, 237, 0.16), transparent 30%), var(--bg);
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    button, input, select, textarea { font: inherit; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+    .app-shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
 
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            display: block;
-        }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px 18px;
+      background: #111827;
+      color: #e5e7eb;
+    }
 
-        h1 {
-            font-size: 3.2rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
 
-        .tagline {
-            font-size: 1.4rem;
-            color: #666;
-            margin-bottom: 25px;
-            font-weight: 300;
-        }
+    .brand-mark {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #60a5fa, #34d399);
+      font-weight: 800;
+      color: white;
+    }
 
-        .intro-text {
-            font-size: 1.2rem;
-            color: #555;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
+    .brand h1 { margin: 0; font-size: 20px; }
+    .brand p { margin: 2px 0 0; color: #9ca3af; font-size: 13px; }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
+    .nav { display: grid; gap: 8px; }
 
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 25px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+    .nav button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 14px;
+      color: #cbd5e1;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
+    .nav button:hover, .nav button.active { background: rgba(255,255,255,0.10); color: #fff; }
 
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-        }
+    .team-card {
+      margin-top: 26px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      color: #cbd5e1;
+      font-size: 14px;
+    }
 
-        .feature-card:nth-child(1) .feature-icon { color: #e74c3c; }
-        .feature-card:nth-child(2) .feature-icon { color: #3498db; }
-        .feature-card:nth-child(3) .feature-icon { color: #2ecc71; }
-        .feature-card:nth-child(4) .feature-icon { color: #f39c12; }
+    main { padding: 28px; }
 
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
 
-        .feature-card p {
-            color: #7f8c8d;
-            font-size: 1rem;
-        }
+    .topbar h2 { margin: 0; font-size: 30px; }
+    .topbar p { margin: 6px 0 0; color: var(--muted); }
 
-        .cta-section {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 50px;
-            border-radius: 20px;
-            margin-top: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+    .quick-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        .cta-title {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 16px;
+      color: white;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(47,111,237,0.22);
+    }
 
-        .cta-description {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+    .btn.secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); box-shadow: none; }
+    .btn.danger { background: var(--red); }
 
-        .chat-hint {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            display: inline-block;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            animation: pulse 2s infinite;
-        }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    .card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(229,233,242,0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            padding: 20px;
-        }
+    .kpi { padding: 20px; }
+    .kpi .label { color: var(--muted); font-size: 14px; }
+    .kpi .value { margin-top: 8px; font-size: 28px; font-weight: 800; }
+    .kpi .trend { margin-top: 8px; color: var(--green); font-size: 13px; }
 
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .header {
-                padding: 30px 20px;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .logo {
-                font-size: 3rem;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .cta-section {
-                padding: 30px 20px;
-            }
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
 
-        /* ================================
-           专门修复聊天框的样式
-           不影响页面其他内容
-        ================================ */
-        
-        /* 确保页面内容不会被聊天框遮挡 */
-        body {
-            padding-bottom: 80px !important;
-        }
+    .section { padding: 20px; }
+    .section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .section-title h3 { margin: 0; font-size: 19px; }
 
-        /* 移动端聊天框修复 */
-        @media (max-width: 768px) {
-            /* 为聊天按钮和窗口预留空间 */
-            body {
-                padding-right: 0 !important;
-                padding-bottom: 100px !important;
-            }
-            
-            /* 聊天按钮位置修复 - 确保在右下角完全显示 */
-            #sophnet-chat-button-iframe,
-            [id*="sophnet-chat-button"],
-            [class*="chat-button"],
-            [class*="floating-chat"] {
-                right: 15px !important;
-                bottom: 15px !important;
-                left: auto !important;
-                top: auto !important;
-                z-index: 10000 !important;
-            }
-            
-            /* 聊天窗口样式修复 - 确保在手机上完全显示 */
-            [class*="chat-window"],
-            [class*="chat-container"],
-            [id*="chat-window"] {
-                position: fixed !important;
-                right: 10px !important;
-                bottom: 80px !important;
-                left: 10px !important;
-                top: auto !important;
-                width: calc(100vw - 20px) !important;
-                max-width: none !important;
-                height: 70vh !important;
-                max-height: 600px !important;
-                border-radius: 15px !important;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-                z-index: 10001 !important;
-            }
-            
-            /* 确保聊天内容区域适应屏幕 */
-            [class*="chat-window"] iframe,
-            [class*="chat-container"] iframe,
-            [id*="chat-window"] iframe {
-                width: 100% !important;
-                height: 100% !important;
-                border-radius: 15px !important;
-            }
-        }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 13px 10px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
+    th { color: var(--muted); font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
 
-        /* 小屏幕手机额外优化 */
-        @media (max-width: 480px) {
-            [class*="chat-window"],
-            [class*="chat-container"],
-            [id*="chat-window"] {
-                height: 65vh !important;
-                max-height: 500px !important;
-                bottom: 70px !important;
-            }
-            
-            body {
-                padding-bottom: 90px !important;
-            }
-        }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef4ff;
+      color: var(--primary-dark);
+    }
+    .badge.success { background: #dcfce7; color: #166534; }
+    .badge.warn { background: #fef3c7; color: #92400e; }
+    .badge.danger { background: #fee2e2; color: #991b1b; }
 
-        /* 横屏模式优化 */
-        @media (max-height: 500px) and (orientation: landscape) {
-            [class*="chat-window"],
-            [class*="chat-container"],
-            [id*="chat-window"] {
-                height: 85vh !important;
-                bottom: 60px !important;
-            }
-        }
-    </style>
+    .module { display: none; }
+    .module.active { display: block; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    label { display: grid; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 700; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+    }
+    textarea { min-height: 88px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(47,111,237,0.12); }
+
+    .list { display: grid; gap: 12px; }
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .small { color: var(--muted); font-size: 13px; }
+    .empty { color: var(--muted); text-align: center; padding: 24px; }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      display: none;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: #111827;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+    .toast.show { display: block; }
+
+    @media (max-width: 980px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+      .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      main { padding: 18px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .nav, .kpis, .form-grid { grid-template-columns: 1fr; }
+      .sidebar { padding: 18px; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <i class="fas fa-gem logo"></i>
-            <h1>图图的宝库</h1>
-            <p class="tagline">智慧之光，照亮求知之路</p>
-            <p class="intro-text">这里汇集了丰富的知识资源与智能解决方案，无论您遇到什么问题，我都能为您提供专业、准确、及时的帮助。</p>
-        </header>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-comments feature-icon"></i>
-                <h3>智能对话</h3>
-                <p>24小时在线的智能助手，随时解答您的疑问，提供个性化交流体验。</p>
-            </div>
-            
-            <div class="feature-card">
-                <i class="fas fa-search feature-icon"></i>
-                <h3>深度解析</h3>
-                <p>对复杂问题进行多维度分析，提供全面、深入的专业见解。</p>
-            </div>
-            
-            <div class="feature-card">
-                <i class="fas fa-bolt feature-icon"></i>
-                <h3>极速响应</h3>
-                <p>先进的技术架构确保快速响应，让您无需等待即刻获得答案。</p>
-            </div>
-            
-            <div class="feature-card">
-                <i class="fas fa-palette feature-icon"></i>
-                <h3>个性化服务</h3>
-                <p>根据您的需求和偏好，提供量身定制的解决方案和建议。</p>
-            </div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">ERP</div>
+        <div>
+          <h1>轻量 ERP</h1>
+          <p>小团队一站式经营工作台</p>
         </div>
+      </div>
+      <nav class="nav" aria-label="主导航">
+        <button class="active" data-module="dashboard">📊 总览</button>
+        <button data-module="customers">🤝 客户</button>
+        <button data-module="sales">🧾 销售</button>
+        <button data-module="inventory">📦 库存</button>
+        <button data-module="tasks">✅ 任务</button>
+        <button data-module="finance">💰 财务</button>
+      </nav>
+      <div class="team-card">
+        <strong>适用规模</strong>
+        <p>支持 10-50 人团队管理客户、订单、库存、任务与回款。数据保存在浏览器本地，便于快速试用。</p>
+      </div>
+    </aside>
 
-        <section class="cta-section">
-            <h2 class="cta-title">准备好开始对话了吗？</h2>
-            <p class="cta-description">点击右下角的聊天按钮，开启您的智能知识探索之旅。无论学习、工作还是生活中的问题，我都在这里为您提供帮助。</p>
-            <div class="chat-hint">
-                <i class="fas fa-arrow-down"></i> 点击右下角开始聊天
+    <main>
+      <div class="topbar">
+        <div>
+          <h2 id="pageTitle">经营总览</h2>
+          <p>今天先看关键指标，再处理需要跟进的事项。</p>
+        </div>
+        <div class="quick-actions">
+          <button class="btn secondary" id="exportBtn">导出数据</button>
+          <button class="btn danger" id="resetBtn">重置演示</button>
+        </div>
+      </div>
+
+      <section class="module active" id="dashboard">
+        <div class="kpis">
+          <div class="card kpi"><div class="label">本月销售额</div><div class="value" id="kpiSales">¥0</div><div class="trend">较上月 +12%</div></div>
+          <div class="card kpi"><div class="label">待回款</div><div class="value" id="kpiReceivable">¥0</div><div class="trend">需重点跟进</div></div>
+          <div class="card kpi"><div class="label">客户数</div><div class="value" id="kpiCustomers">0</div><div class="trend">活跃客户池</div></div>
+          <div class="card kpi"><div class="label">库存预警</div><div class="value" id="kpiStock">0</div><div class="trend">低于安全库存</div></div>
+        </div>
+        <div class="grid">
+          <div class="card section">
+            <div class="section-title"><h3>最近订单</h3><span class="small">自动汇总销售模块</span></div>
+            <table><thead><tr><th>订单</th><th>客户</th><th>金额</th><th>状态</th></tr></thead><tbody id="recentOrders"></tbody></table>
+          </div>
+          <div class="card section">
+            <div class="section-title"><h3>待办事项</h3><span class="small">跨部门协作</span></div>
+            <div class="list" id="todoList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="module" id="customers">
+        <div class="grid">
+          <div class="card section">
+            <div class="section-title"><h3>客户列表</h3><span class="small" id="customerCount"></span></div>
+            <div class="list" id="customerList"></div>
+          </div>
+          <form class="card section" id="customerForm">
+            <div class="section-title"><h3>新增客户</h3></div>
+            <div class="form-grid">
+              <label>客户名称<input required name="name" placeholder="如：星河科技" /></label>
+              <label>联系人<input required name="contact" placeholder="如：王经理" /></label>
+              <label>电话<input name="phone" placeholder="13800000000" /></label>
+              <label>客户级别<select name="level"><option>重点客户</option><option>普通客户</option><option>潜在客户</option></select></label>
             </div>
-        </section>
+            <button class="btn" type="submit">保存客户</button>
+          </form>
+        </div>
+      </section>
 
-        <footer>
-            <p>© 2024 图图的宝库 · 让知识触手可及</p>
-        </footer>
-    </div>
+      <section class="module" id="sales">
+        <div class="grid">
+          <div class="card section">
+            <div class="section-title"><h3>销售订单</h3></div>
+            <table><thead><tr><th>编号</th><th>客户</th><th>金额</th><th>状态</th></tr></thead><tbody id="salesTable"></tbody></table>
+          </div>
+          <form class="card section" id="salesForm">
+            <div class="section-title"><h3>新建订单</h3></div>
+            <div class="form-grid">
+              <label>客户<input required name="customer" placeholder="客户名称" /></label>
+              <label>金额<input required name="amount" type="number" min="0" placeholder="订单金额" /></label>
+              <label>状态<select name="status"><option>待发货</option><option>已发货</option><option>已收款</option></select></label>
+              <label>负责人<input name="owner" placeholder="销售负责人" /></label>
+            </div>
+            <button class="btn" type="submit">创建订单</button>
+          </form>
+        </div>
+      </section>
 
-    <!-- 智能体悬浮窗代码 -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // 移动端检测
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        var scriptEl = document.createElement('script');
-        scriptEl.src = "https://sophnet.com/api/agents/sophnet-chat-button.umd.js";
-        scriptEl.defer = true;
-        scriptEl.onload = function () {
-          if (window.FloatingChatButton) {
-            window.FloatingChatButton.mount(undefined, {
-              id: '3n9gXgYvsC3eNNApd5xv3T',
-              name: '图图的宝库',
-            });
+      <section class="module" id="inventory">
+        <div class="card section">
+          <div class="section-title"><h3>库存管理</h3><span class="small">低于安全库存会自动预警</span></div>
+          <table><thead><tr><th>物料</th><th>库存</th><th>安全库存</th><th>状态</th></tr></thead><tbody id="inventoryTable"></tbody></table>
+        </div>
+      </section>
 
-            // 如果是移动设备，延迟调整聊天框位置
-            if (isMobile) {
-              setTimeout(() => {
-                fixChatPosition();
-              }, 1000);
-            }
-          }
-        };
-        document.body.appendChild(scriptEl);
+      <section class="module" id="tasks">
+        <div class="grid">
+          <div class="card section"><div class="section-title"><h3>团队任务</h3></div><div class="list" id="taskList"></div></div>
+          <form class="card section" id="taskForm">
+            <div class="section-title"><h3>新增任务</h3></div>
+            <div class="form-grid">
+              <label>任务名称<input required name="title" placeholder="如：跟进报价" /></label>
+              <label>负责人<input required name="owner" placeholder="如：李雷" /></label>
+              <label>截止日期<input required name="due" type="date" /></label>
+              <label>优先级<select name="priority"><option>高</option><option>中</option><option>低</option></select></label>
+            </div>
+            <button class="btn" type="submit">添加任务</button>
+          </form>
+        </div>
+      </section>
 
-        // 专门修复聊天框位置的函数
-        function fixChatPosition() {
-          console.log('正在修复聊天框位置...');
-          
-          // 查找聊天按钮元素
-          const chatButtons = [
-            document.querySelector('#sophnet-chat-button-iframe'),
-            document.querySelector('[id*="chat-button"]'),
-            document.querySelector('[class*="chat-button"]'),
-            document.querySelector('[class*="floating-chat"]')
-          ];
-          
-          // 查找聊天窗口元素
-          const chatWindows = [
-            document.querySelector('[class*="chat-window"]'),
-            document.querySelector('[class*="chat-container"]'),
-            document.querySelector('[id*="chat-window"]')
-          ];
-          
-          // 修复聊天按钮位置
-          chatButtons.forEach(button => {
-            if (button) {
-              button.style.right = '15px';
-              button.style.bottom = '15px';
-              button.style.left = 'auto';
-              button.style.zIndex = '10000';
-              console.log('聊天按钮位置已修复');
-            }
-          });
-          
-          // 修复聊天窗口位置和尺寸
-          chatWindows.forEach(window => {
-            if (window) {
-              window.style.position = 'fixed';
-              window.style.right = '10px';
-              window.style.bottom = '80px';
-              window.style.left = '10px';
-              window.style.width = 'calc(100vw - 20px)';
-              window.style.height = '70vh';
-              window.style.maxHeight = '600px';
-              window.style.zIndex = '10001';
-              console.log('聊天窗口位置已修复');
-            }
-          });
-        }
+      <section class="module" id="finance">
+        <div class="card section">
+          <div class="section-title"><h3>应收账款</h3><span class="small">基于订单状态自动计算</span></div>
+          <table><thead><tr><th>客户</th><th>订单金额</th><th>状态</th><th>收款建议</th></tr></thead><tbody id="financeTable"></tbody></table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
 
-        // 监听窗口变化和点击事件，持续修复位置
-        window.addEventListener('resize', fixChatPosition);
-        document.addEventListener('click', function(e) {
-          // 如果点击了可能是聊天按钮的元素，延迟修复位置
-          if (e.target.closest('[id*="chat"], [class*="chat"]')) {
-            setTimeout(fixChatPosition, 500);
-          }
-        });
-        
-        // 定期检查并修复位置
-        setInterval(fixChatPosition, 2000);
+  <script>
+    const STORAGE_KEY = 'miniErpData.v1';
+    const seedData = {
+      customers: [
+        { name: '星河科技', contact: '王经理', phone: '13800000001', level: '重点客户' },
+        { name: '青禾贸易', contact: '陈总', phone: '13800000002', level: '普通客户' },
+        { name: '云帆制造', contact: '赵主管', phone: '13800000003', level: '潜在客户' }
+      ],
+      sales: [
+        { id: 'SO-202608-001', customer: '星河科技', amount: 38600, status: '已收款', owner: '李雷' },
+        { id: 'SO-202608-002', customer: '青禾贸易', amount: 21800, status: '待发货', owner: '韩梅梅' },
+        { id: 'SO-202608-003', customer: '云帆制造', amount: 46500, status: '已发货', owner: '王强' }
+      ],
+      inventory: [
+        { name: 'A 型标准件', stock: 128, safe: 60 },
+        { name: '包装纸箱', stock: 28, safe: 50 },
+        { name: '标签耗材', stock: 320, safe: 100 },
+        { name: 'B 型配件', stock: 16, safe: 30 }
+      ],
+      tasks: [
+        { title: '确认青禾贸易发货地址', owner: '韩梅梅', due: '2026-08-12', priority: '高', done: false },
+        { title: '补充包装纸箱采购单', owner: '王强', due: '2026-08-13', priority: '中', done: false },
+        { title: '星河科技售后回访', owner: '李雷', due: '2026-08-15', priority: '低', done: true }
+      ]
+    };
+
+    let data = loadData();
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : structuredClone(seedData);
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      render();
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', maximumFractionDigits: 0 }).format(value);
+    }
+
+    function statusBadge(status) {
+      const cls = status === '已收款' ? 'success' : status === '已发货' ? 'warn' : '';
+      return `<span class="badge ${cls}">${status}</span>`;
+    }
+
+    function priorityBadge(priority) {
+      return `<span class="badge ${priority === '高' ? 'danger' : priority === '中' ? 'warn' : 'success'}">${priority}</span>`;
+    }
+
+    function render() {
+      const salesTotal = data.sales.reduce((sum, item) => sum + Number(item.amount), 0);
+      const receivable = data.sales.filter(item => item.status !== '已收款').reduce((sum, item) => sum + Number(item.amount), 0);
+      const lowStock = data.inventory.filter(item => item.stock < item.safe).length;
+      document.getElementById('kpiSales').textContent = money(salesTotal);
+      document.getElementById('kpiReceivable').textContent = money(receivable);
+      document.getElementById('kpiCustomers').textContent = data.customers.length;
+      document.getElementById('kpiStock').textContent = lowStock;
+
+      document.getElementById('recentOrders').innerHTML = data.sales.slice(-5).reverse().map(order => `
+        <tr><td>${order.id}</td><td>${order.customer}</td><td>${money(order.amount)}</td><td>${statusBadge(order.status)}</td></tr>`).join('');
+
+      document.getElementById('todoList').innerHTML = data.tasks.filter(task => !task.done).map(task => `
+        <div class="list-item"><div><strong>${task.title}</strong><div class="small">${task.owner} · 截止 ${task.due}</div></div>${priorityBadge(task.priority)}</div>`).join('') || '<div class="empty">暂无待办任务</div>';
+
+      document.getElementById('customerCount').textContent = `${data.customers.length} 个客户`;
+      document.getElementById('customerList').innerHTML = data.customers.map(customer => `
+        <div class="list-item"><div><strong>${customer.name}</strong><div class="small">${customer.contact} · ${customer.phone || '未填写电话'}</div></div><span class="badge">${customer.level}</span></div>`).join('');
+
+      document.getElementById('salesTable').innerHTML = data.sales.map(order => `
+        <tr><td>${order.id}</td><td>${order.customer}</td><td>${money(order.amount)}</td><td>${statusBadge(order.status)}</td></tr>`).join('');
+
+      document.getElementById('inventoryTable').innerHTML = data.inventory.map(item => `
+        <tr><td>${item.name}</td><td>${item.stock}</td><td>${item.safe}</td><td>${item.stock < item.safe ? '<span class="badge danger">需补货</span>' : '<span class="badge success">正常</span>'}</td></tr>`).join('');
+
+      document.getElementById('taskList').innerHTML = data.tasks.map((task, index) => `
+        <div class="list-item"><div><strong>${task.done ? '✓ ' : ''}${task.title}</strong><div class="small">${task.owner} · 截止 ${task.due}</div></div><button class="btn secondary" onclick="toggleTask(${index})">${task.done ? '设为待办' : '完成'}</button></div>`).join('');
+
+      document.getElementById('financeTable').innerHTML = data.sales.map(order => `
+        <tr><td>${order.customer}</td><td>${money(order.amount)}</td><td>${statusBadge(order.status)}</td><td>${order.status === '已收款' ? '归档订单' : '安排本周跟进'}</td></tr>`).join('');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    window.toggleTask = function(index) {
+      data.tasks[index].done = !data.tasks[index].done;
+      saveData();
+      showToast('任务状态已更新');
+    };
+
+    document.querySelectorAll('.nav button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.nav button').forEach(item => item.classList.remove('active'));
+        document.querySelectorAll('.module').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        document.getElementById(button.dataset.module).classList.add('active');
+        document.getElementById('pageTitle').textContent = button.textContent.replace(/^[^\u4e00-\u9fa5]+/, '') || '经营总览';
       });
+    });
 
-      // 防止页面缩放干扰
-      document.addEventListener('touchstart', function(e) {
-          if (e.touches.length > 1) {
-              e.preventDefault();
-          }
-      });
+    document.getElementById('customerForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const formData = Object.fromEntries(new FormData(event.currentTarget));
+      data.customers.push(formData);
+      event.currentTarget.reset();
+      saveData();
+      showToast('客户已保存');
+    });
 
-      let lastTouchEnd = 0;
-      document.addEventListener('touchend', function(e) {
-          const now = (new Date()).getTime();
-          if (now - lastTouchEnd <= 300) {
-              e.preventDefault();
-          }
-          lastTouchEnd = now;
-      }, false);
-    </script>
+    document.getElementById('salesForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const formData = Object.fromEntries(new FormData(event.currentTarget));
+      data.sales.push({ ...formData, amount: Number(formData.amount), id: `SO-202608-${String(data.sales.length + 1).padStart(3, '0')}` });
+      event.currentTarget.reset();
+      saveData();
+      showToast('订单已创建');
+    });
+
+    document.getElementById('taskForm').addEventListener('submit', event => {
+      event.preventDefault();
+      data.tasks.push({ ...Object.fromEntries(new FormData(event.currentTarget)), done: false });
+      event.currentTarget.reset();
+      saveData();
+      showToast('任务已添加');
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'mini-erp-data.json';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      showToast('演示数据已导出');
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      data = structuredClone(seedData);
+      saveData();
+      showToast('演示数据已重置');
+    });
+
+    render();
+  </script>
 </body>
 </html>
-
-
